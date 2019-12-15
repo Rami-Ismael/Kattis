@@ -1,0 +1,46 @@
+https://open.kattis.com/problems/bachetsgameimport
+java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+static int stones,m;
+static public int stonesRemove[] = new int[10];
+static StringTokenizer st;
+static char [] positoin = new char[10000001];
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+        String line;
+        while ((line=br.readLine())!=null&&!line.equals("")){
+            st = new StringTokenizer(line);
+            stones = Integer.parseInt(st.nextToken());
+            m = Integer.parseInt(st.nextToken());
+            stonesRemove = new int[m];
+            for (int i=0;i<m;i++)
+                stonesRemove[i] = Integer.parseInt(st.nextToken());
+            Nim();
+            if (positoin[stones]=='W')
+                pw.write("Stan wins\n");
+            else
+                pw.write("Ollie wins\n");
+        }
+pw.flush();
+    }
+
+    private static void Nim() {
+        positoin[0] = 'L';
+        positoin[1] = 'W';
+        for (int i=2;i<=stones;i++){
+            boolean findTheLosingPosition = false;
+            int j=0;
+            while (!findTheLosingPosition&&j<stonesRemove.length){
+                if(i-stonesRemove[j]>=0&&positoin[i-stonesRemove[j]]=='L')
+                    findTheLosingPosition= true;
+                j++;
+            }
+            if(findTheLosingPosition)positoin[i] = 'W';else
+                positoin[i] = 'L';
+        }
+    }
+}
