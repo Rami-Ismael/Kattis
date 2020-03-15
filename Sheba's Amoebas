@@ -1,0 +1,55 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static String line;
+    static int n, k, T, N, m, Q, q;
+    static StringTokenizer st;
+    static Scanner in = new Scanner(System.in);
+    static char[][] word;
+    static int[] arr;
+    static int dr[] = {1,1,0,-1,-1,-1,0,1};//s,SE,E,Ne,N,NQ,W,SW neihgbors
+    static int dc[] = {0,1,1,1,0,-1,-1,-1};
+  static   boolean bol = true;
+    public static void main(String[] args) throws IOException {
+            st = new StringTokenizer(br.readLine());
+            m = Integer.parseInt(st.nextToken());
+            n = Integer.parseInt(st.nextToken());
+            word = new char[m][n];
+            for (int i=0;i<m;i++)
+                word[i] = br.readLine().toCharArray();
+           for (int i=0;i<m;i++)
+               for (int j=0;j<n;j++){
+                   if (word[i][j]=='#'){
+                       dfs(i,j,'.');
+                           T++;
+                       bol = true;
+                   }
+               }
+
+           pw.println(T);
+        pw.flush();
+
+    }
+
+    private static void dfs(int r, int c, char c1) {
+        word[r][c] = c1;
+        for (int i=0;i<8;i++){
+           int newr = r+dr[i];
+            int newc = c+dc[i];
+            if (newr>=0&&newr<m&&newc>=0&&newc<n&&word[newr][newc]=='#')
+                dfs(newr,newc,c1);
+
+        }
+    }
+
+    static class IP {
+        int row, col;
+
+        public IP(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+}
