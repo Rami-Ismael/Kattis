@@ -1,0 +1,55 @@
+import java.util.*;
+import java.io.*;
+public class Knight_Jump {
+    static   int dx[] = {-2, -1, 1, 2, -2, -1, 1, 2};  
+    static int dy[] = {-1, -2, -2, -1, 1, 2, 2, 1};  
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static  char [][] graph;
+    static int [][] distance;
+    public static void main(String[] args) throws IOException{
+        int N = Integer.parseInt(br.readLine());
+           graph  = new char[N][N];
+          distance = new int[N][N];
+    
+        String line;
+        int sr =0;int sc=0;
+      for(int i=0;i<N;i++){
+          Arrays.fill(distance[i], 100000);
+             line = br.readLine();
+    for(int j=0;j<N;j++){
+                graph[i][j] = line.charAt(j);
+                if(graph[i][j]=='K'){
+                    sr = i;
+                    sc = j;
+                }
+            }
+      }
+       distance[sr][sc]=0;
+      bfs(sr,sc,N);
+      pw.println(distance[0][0]!=100000?distance[0][0]:"-1");
+      pw.flush();
+    }
+    public static void bfs(int r, int c,int N){
+        Queue<Integer> rows = new LinkedList<Integer>();
+        rows.add(r);
+        Queue<Integer> cols = new LinkedList<Integer>();
+        cols.add(c);
+        distance[r][c]=0;
+        while(!rows.isEmpty()){
+            int ur = rows.poll();
+            int uc = cols.poll();
+            for(int i=0;i<dx.length;i++){
+                int vr = dy[i]+ur;
+                int vc = dx[i]+uc;
+                if(vr>=0&&vr<N&&vc>=0&&vc<N&&graph[vr][vc]=='.'&&distance[vr][vc]==100000){
+                    distance[vr][vc] = distance[ur][uc]+1;
+                    rows.add(vr);
+                    cols.add(vc);
+                }
+            }
+        }
+
+
+    }
+}
