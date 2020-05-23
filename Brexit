@@ -1,0 +1,41 @@
+  public static void main(String args[]) throws IOException {
+        Reader ob = new Reader();
+        PrintWriter p = new PrintWriter(System.out);
+        int  c  = ob.nextInt();int P = ob.nextInt(); int X  = ob.nextInt();int L = ob.nextInt();
+        //this will be in 1 index base system
+        ArrayList<HashSet<Integer>> G = new ArrayList<HashSet<Integer>>(c+1);
+        for(int i=0;i<=c;i++)
+        G.add(new HashSet<>());
+        for(int i=0;i<P;i++){
+            int u = ob.nextInt();
+            int v = ob.nextInt();
+            G.get(u).add(v);
+            G.get(v).add(u);
+        }
+        int []degree = new int[c+1];
+        for(int i=0;i<=c;i++)
+        degree[i] = G.get(i).size();
+        //add the leaving count into the queue
+        Queue<Integer> q = new LinkedList<>();
+        q.add(L);
+        BitSet alreadyRemove = new BitSet(c+1);
+        alreadyRemove.set(L,true);
+        while(!q.isEmpty()){
+            ///go through it neightbour
+            int u= q.poll();    
+            //go through all itneightbour
+            for(int v :G.get(u)){
+                G.get(v).remove(u);
+                //the neight bof u reomve more than laf of the node then add ot the queue
+                //to repeat the process
+                if(G.get(v).size()<=degree[v]/2&&!alreadyRemove.get(v)){
+                    q.add(v);
+                    alreadyRemove.set(v,true);
+                }
+            }
+            
+        }
+       p.println(!alreadyRemove.get(X)?"stay":"leave");
+        p.flush();
+        p.close();
+    }
