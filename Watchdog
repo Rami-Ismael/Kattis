@@ -1,0 +1,61 @@
+while(t-->0){
+        int S = in.nextInt();
+        int H = in.nextInt();
+        //binary serach the point
+        IP [] points = new IP[H];
+        for(int i=0;i<H;i++){
+            points[i] = new IP(in.nextInt(),in.nextInt());
+        }
+       //the constain is samll posublenoghught to brute force all the method
+       int x = -1;
+       int y =-1;
+       for(double i=0;i<S;i++){
+           for(double j=0;j<S;j++){
+               //this 40^2 = 1600
+               double maxLeashDistance = dis(i,j,points);
+               if(i-maxLeashDistance>=0&&i+maxLeashDistance<=S&&j-maxLeashDistance>=0&&maxLeashDistance+j<=S){
+                   if(x==-1){
+                       x = (int)i;
+                       y =  (int)j;
+                   }
+               }
+           }
+       }
+       if(x==-1){
+           out.println("poodle");
+       }else{
+           out.println(x+" "+y);
+       }
+    }
+
+        out.flush();
+    }
+    
+    private static double dis(Double x, Double y, IP[] points) {
+        double dx = 0;
+        double dy =0;
+        double max =0;
+        for(int i=0;i<points.length;i++){
+            dx = Math.abs(x-points[i].first);
+            dy = Math.abs(y-points[i].second);
+            if(dx==0&&dy==0){
+                return 10000000;
+            }
+            max = Math.max(max, Math.sqrt(dx*dx+dy*dy));
+        }
+        return max;
+    }
+
+    static class IP implements Comparable<IP> {
+        public int first,second;
+        IP(int first, int second){
+            this.first = first;
+            this.second = second;
+        }
+        public int compareTo(IP ip){
+            if(first==ip.first)
+                return second-ip.second;
+            return first-ip.first;    
+        }
+ 
+    }
