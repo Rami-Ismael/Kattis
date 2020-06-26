@@ -1,0 +1,31 @@
+ int n = in.nextInt();
+      while(n-->0){
+          int m= in.nextInt();
+          int [] arr  = new int[m];
+          for(int i=0;i<m;i++){
+              arr[i] = in.nextInt();
+          }
+          if(isArithmetic(arr)){
+              out.println("arithmetic");
+          }else {
+              Arrays.sort(arr);
+              if(isArithmetic(arr)){
+                  out.println("permuted arithmetic");
+              }else{
+                  out.println("non-arithmetic");
+              }
+          }
+      }
+   
+   out.flush();
+    }
+    
+    private static boolean isArithmetic(int []arr) {
+        Integer dif = arr[0]-arr[1];
+        for(int i=1;i<arr.length-1;i++){
+                if(!dif.equals((arr[i]-arr[i+1]))){
+                    return false; 
+                }
+        }
+        return true;
+    }
