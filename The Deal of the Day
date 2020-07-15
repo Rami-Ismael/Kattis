@@ -1,0 +1,115 @@
+import java.io.*;
+import java.math.*;
+import java.util.*;
+ 
+ 
+ 
+ 
+ 
+public class TheDealOfTheDay {
+ 
+     static MyScanner in = new MyScanner();
+    static   PrintWriter out = new PrintWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringTokenizer st;
+    static long H,W;
+    static BitSet bs;
+    static long mod = 1000000007;
+    static BigInteger ans = new BigInteger("0");
+    static int k =0;
+    static  int [] arr;
+    public static void main(String args[]) throws IOException {
+        arr = new int[10];
+        for(int i=0;i<10;i++){
+            arr[i] = in.nextInt();
+        }
+        k = in.nextInt();
+        ArrayList<Integer> list = new ArrayList<>();
+        recursion(0,list,-1);
+        out.println(ans);
+   out.flush();
+    }
+    
+    private static void recursion(int i, ArrayList<Integer> list,int prev) {
+        if(i==k){
+           // out.println(list);
+          BigInteger ones = new BigInteger("1");
+            for(int x:list){
+                BigInteger bg = new BigInteger(String.valueOf(arr[x]));
+                ones = ones.multiply(bg);
+            }
+            ans = ans.add(ones);
+        }else if(i<k){
+            for(int j=prev+1;j<10;j++){
+                list.add(j);
+                recursion(i+1, list,j);
+                list.remove(list.size()-1);
+            }
+        }
+    }
+
+    static class IP implements Comparable<IP> {
+        public int first,second;
+        IP(int first, int second){
+            this.first = first;
+            this.second = second;
+        }
+        public int compareTo(IP ip){
+            if(first==ip.first)
+                return second-ip.second;
+            return first-ip.first;    
+        }
+ 
+    }
+        
+       static int gcd(int a, int b){
+        return b!=0?gcd(b, a%b):a;
+    }
+ 
+        static boolean isEven(long a) {
+            return (a&1)==0;
+        }
+    
+    public static class MyScanner {
+        BufferedReader br;
+        StringTokenizer st;
+   
+        public MyScanner() {
+           br = new BufferedReader(new InputStreamReader(System.in));
+        }
+   
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+   
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+   
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+   
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+   
+        String nextLine(){
+            String str = "";
+        try {
+           str = br.readLine();
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
+        return str;
+        }
+  
+     }
+}
